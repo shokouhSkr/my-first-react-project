@@ -1,7 +1,6 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import "./index.css"
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
 
-const element = React.createElement("div", { id: "title", className: "app-title" }, "this is first app")
-
-ReactDOM.render(element, document.getElementById("root"))
+ReactDOM.render(<App />, document.getElementById("root"));

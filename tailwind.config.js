@@ -1,7 +1,5 @@
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     container: {
       center: true,
@@ -9,14 +7,14 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        'sans': ['Vazir'],
+        sans: ["Vazir"],
       },
       screens: {
-        '2xs': '375px',
-        'xs': '425px',
-        '3xl': '1440px',
+        "2xs": "375px",
+        xs: "425px",
+        "3xl": "1440px",
       },
     },
   },
   plugins: [],
-}
+};
