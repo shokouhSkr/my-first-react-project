@@ -2,8 +2,22 @@
 // imrd => import ReactDOM from "react-dom";
 
 /******************************************************************/
-// components in react => classes and objects
-// App() in react => <App/> => called jsx => javascript and HTML
+// When we have a function with at least one method, we need a blueprint to create object of that type. sth like:
+
+class Person() {
+  
+}
+
+// class, technically is an object in js.
+
+// default export -> import ... from ''
+// named export -> import { ... } from ''
+
+// expression: is sth that produces a value. like 2 + 2 = 4
+
+/******************************************************************/
+// components in react => every sections of a website like navbar and footer and form and etc. or we can say: a piece of UI.
+// App() in react => <App/> => called jsx => javascript and XML. 
 // call a function in react => render => we render a component by sth like: <App />
 // کامپوننت ها تگ های اچ تی ام ال رو ریترن میکنن و این یعنی رندر کردن
 // تعریف کامپوننت: میاد کد هارو مارو جدا از هم میکنه، توی فایل های جدا و با لاجیک های جدا توسعه میده
@@ -110,7 +124,7 @@ export default App;
 /******************************************************************/
 // کامپوننت از نوع کلاس (کلس کامپوننت):
 
-import React, { Component } from "react";  // -> برای استفاده از کامپوننت های کلاسی، میشه اینجوری هم ایمپورت کرد
+import React, { Component, Fragment } from "react";  // -> برای استفاده از کامپوننت های کلاسی، میشه اینجوری هم ایمپورت کرد
 
 class App extends Component {  // این کامپوننت یک کلسه که ریکت درستش کرده تا ما به چیزایی که ریکت در اختیارمون گذاشته دسترسی پیدا کنیم
   render() {
@@ -497,3 +511,138 @@ const clickHandler = () => {
 }
 
 export default App;
+
+/******************************************************************/
+// pass "argument" to event: (in class component)
+
+// وقتی ارو فانکشن ما یک خطی هست دیگه ریترن رو نمینویسیم
+
+import React, { Component } from 'react';
+
+class ArgumentPassing extends Component {
+  state = { 
+  } 
+
+  clickHandler = () => {
+    ...
+  }
+
+  countHandler = () => {
+    this.setState({count: this.state.count + 1})
+  }
+
+  render() { 
+    return (
+      <div>
+        <h1>Shopping App</h1>
+        <button onClick={this.countHandler.bind(this, 2)}>  // از متود بایند استفاده کردیم تا بتونیم به چیزای کلاس دسترسی پیدا کنیم
+          counter: {this.state.count}</button>              // و ارگومان دوم هم مقداریه که بهش پاس میدیم
+      </div>
+    );
+  }
+}
+
+export default ArgumentPassing;
+
+// یا میتونیم از ارو فانکشن برای پاس دادن مقدار به ایونت استفاده کنیم:
+return (
+      <div>
+        <h1>Shopping App</h1>
+        <button onClick={() => this.countHandler(2)}>  // راه دوم و راه بهتر_استفاده از ارو فانکشن
+          counter: {this.state.count}</button>              
+      </div>
+    );
+
+/******************************************************************/
+// pass function ass props:
+
+// توی فایل پروداکت:
+const Product = (props) => {
+  return (
+    <div className="bg-blue-50 p-4" onClick={props.click}> //*
+      <p>Product: {props.name}</p>
+      <p>Price: {props.price}</p>
+      <p>{props.children}</p>
+    </div>
+  );
+};
+
+export default Product;
+
+
+
+// توی فایل اپ:
+class PropsPassing extends React.Component {
+  state = {
+    products: [
+      { title: "Tailwindcss", price: "390$" },
+      { title: "JavaScript", price: "220$" },
+      { title: "React", price: "300$" },
+    ],
+  };
+
+  clickHandler = (newTitle) => {  //*
+    this.setState({
+      products: [
+        { title: "Tailwindcss", price: "35$" },
+        { title: newTitle, price: "20$" },  //*
+        { title: "React", price: "25$" },
+      ],
+    });
+  };
+
+  render() {
+    return (
+      <div className="container bg-purple-100 p-4 pt-0 text-center">
+        <h1 className="py-4 text-3xl">Shopping list</h1>
+        {this.state.products.map((product) => {
+          return <Product name={product.title} price={product.price} click={() => this.clickHandler('new title')} />; //*
+        })}
+        <button
+          onClick={this.clickHandler({id:2})} //*
+          className="mt-4 rounded bg-green-100 p-2 ring-1 ring-green-400 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+        >
+          Change price
+        </button>
+      </div>
+    );
+  }
+}
+
+export default PropsPassing;
+
+/******************************************************************/
+// fragment:
+
+// مفهومش اینه که هر تگ جی اس ایکس، باید یک تگ پدر داشته باشه
+// اگر تگ ما نیازی به تگ پدر نداشت، به جاش از تگ فرگمنت استفاده میکنیم
+
+import React, {Fragment} from 'react'; //*
+
+const Product = (props) => {
+  return (
+    <Fragment>  //*
+      <p>product name: {props.name} courses</p>
+      <p>product price: {props.price}</p>
+    </Fragment>
+  )
+}
+
+export default Product;
+
+// حتی میشه فرگمنت رو ایمپورت نکرد و تگ خالی گذاشت
+const Product = (props) => {
+  return (
+    <>  //*
+      <p>product name: {props.name} courses</p>
+      <p>product price: {props.price}</p>
+    </>
+  )
+}
+
+export default Product;
+
+/******************************************************************/
+// هر کامپوننتی که استیتش تغییر میکنه باید هندلرها همون جا نوشته بشه
+
+// استیت، لوکاله
